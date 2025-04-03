@@ -4,6 +4,10 @@
 ### Flutter 
 1. folder by feature
 
+### Commits 
+- gitmoji correspondante : https://gitmoji.dev/
+ Example ajout de fonctionnalité : :sparkles: added login page 
+
 ### Organisation des branches
 1. **Branches principales** :
    - **`main`** : Branche principale représentant l'environnement de **préproduction**.
@@ -11,13 +15,12 @@
 
 2. **Branches de travail** :
    - Préfixées selon le domaine :
-     - **`front/`** : Modifications frontend. Exemple : `front/add-login-page`
-     - **`back/`** : Modifications backend. Exemple : `back/user-authentication`
+     - **`feat/`** Exemple : `feat/add-login-page`
 
 ### Workflow GitHub
 
 1. **Création de branche** :  
-   Travailler sur une branche dédiée (préfixée par `front/` ou `back/`).
+   Travailler sur une branche dédiée (préfixée par `feat/...`).
 
 2. **Passage en staging** :  
    Fusionner la branche dans `staging`. Exécuter des tests pour valider les modifications.
