@@ -11,10 +11,12 @@ import (
 
 // The main function serves as the entry point for the application.
 func main() {
+
+	config.ConfigDataApi()
+	
 	// Initialize the data API container with configuration and data API instances.
 	dataApiContainer := &data.ApiContainer{
 		ApiConfig: config.ConfigApi(),     // Load API configuration settings.
-		DataApi:   config.ConfigDataApi(), // Load data API settings.
 	}
 
 	// Create a new Gin router instance.
