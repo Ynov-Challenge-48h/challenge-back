@@ -40,10 +40,23 @@ func Setup(router *gin.Engine, dataApiContainer *data.ApiContainer) {
 		post.Login(c, dataApiContainer, dbPath)
 	})
 
-
-	// Define a POST route for updating a specific individus with picture send in the request.
+	// WIP : Define a POST route for updating a specific individus with picture send in the request.
 	router.POST("/individu/:individu_uuid", func(c *gin.Context) {
-		post.AddCNIdata(c,dbPath, allIndividus)
+		file, err := c.FormFile("image")
+		if err != nil {
+			c.JSON(400, gin.H{"error": "Image is required"})
+			return
+		}
+
+		// Save the file to a temporary location
+		filePath := filepath.Join("./tmp", file.Filename)
+		if err := c.SaveUploadedFile(file, filePath); err != nil {
+			c.JSON(500, gin.H{"error": "Failed to save image"})
+			return
+		}
+
+		// Pass the file path to the AddCNIdata function
+		post.AddCNIdata(c, dbPath, allIndividus, filePath)
 	})
 
 }
