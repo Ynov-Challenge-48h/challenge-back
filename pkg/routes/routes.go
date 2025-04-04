@@ -40,4 +40,5 @@ func Setup(router *gin.Engine, dataApiContainer *data.ApiContainer) {
 	router.POST("/individu/:individu_uuid", func(c *gin.Context) {
 		post.AddCNIdata(c,dbPath, allIndividus)
 	})
+
 }

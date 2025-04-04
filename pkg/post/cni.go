@@ -1,10 +1,10 @@
 package post
 
 import (
+	"api_test/DB"
 	"api_test/data"
 	"fmt"
 	"net/http"
-	"api_test/DB"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,13 +18,13 @@ func AddCNIdata(c *gin.Context, dbpath string, allIndividus []data.Individu) {
 	for _, individu := range allIndividus {
 		// Assuming there is a field in Individu that links it to a client, e.g., ClientNumber
 		if individu.UUID == UUIDindividu {
-			 IndividuToUpdate = individu
+			IndividuToUpdate = individu
 			break
 		}
 	}
-	fmt.Print(IndividuToUpdate)
+	fmt.Println(IndividuToUpdate)
 
-	DB.SetIndividus(dbpath,IndividuToUpdate)
+	DB.SetIndividus(dbpath, IndividuToUpdate)
 
 	c.IndentedJSON(http.StatusOK, true)
 }
