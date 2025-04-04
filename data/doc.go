@@ -27,6 +27,17 @@ type Individu struct {
 	FirstName    string `json:"first_name"`
 }
 
+type User struct {
+	UUID           string `json:"uuid"`
+	Username       string `json:"username"`
+	HashedPassword string `json:"password"`
+}
+
+type InputLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"` // Haché dans la BDD
+}
+
 // ApiContainer aggregates the API configuration and data API.
 type ApiContainer struct {
 	ApiConfig *ApiConfig // Pointer to the ApiConfig struct for server configuration.

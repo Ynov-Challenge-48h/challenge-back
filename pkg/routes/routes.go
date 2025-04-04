@@ -4,6 +4,7 @@ import (
 	"api_test/DB"
 	"api_test/data"
 	"api_test/pkg/get"
+	"api_test/pkg/post"
 	"log"
 	"path/filepath"
 
@@ -34,4 +35,9 @@ func Setup(router *gin.Engine, dataApiContainer *data.ApiContainer) {
 	router.GET("/clients/:number_clients/individus", func(c *gin.Context) {
 		get.GetAllIndividusByClient(c, dataApiContainer, allClients, allIndividus)
 	})
+
+	router.POST("/login", func(c *gin.Context) {
+		post.Login(c, dataApiContainer, dbPath)
+	})
+
 }

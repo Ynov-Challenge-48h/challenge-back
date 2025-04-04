@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	_ "modernc.org/sqlite"
 )
 
@@ -126,11 +127,20 @@ func PopulateDatabase(db *sql.DB) {
 
 	// Insert data into the Logging table with real UUIDs.
 	loggingInsert := `INSERT INTO Logging (uuid, username, password) VALUES (?, ?, ?);`
+
+	plainPassword := "monMotDePasse123"
+
+	// Hachage du mot de passe
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(plainPassword), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal("Erreur lors du hachage du mot de passe: ", err)
+	}
+
 	loggings := []struct {
 		username       string
-		hashedPassword string
+		hashedPassword []byte
 	}{
-		{"user1", "hashedpassword1"}, // fill with the real hash
+		{"user1", hashedPassword}, // fill with the real hash
 	}
 
 	// Insert each logging entry into the database.
@@ -217,4 +227,46 @@ func GetIndividus(dbPath string) ([]data.Individu, error) {
 	}
 
 	return individus, nil
+
+}
+
+func GetClientByUsername(dbPath, uuid string) (*data.User, error) {
+	fmt.Println("Opening database connection...")
+
+
+	// Ouvrir une connexion à la base de données SQLite
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open database: %v", err)
+	}
+	defer db.Close()
+
+	fmt.Println("Database connection opened successfully.")
+
+	// Définir la requête pour récupérer les données du client
+	query := `SELECT uuid, username, password FROM Logging WHERE uuid = ?;`
+	fmt.Printf("Executing query: %s with uuid: %s\n", query, uuid)
+
+	// Exécuter la requête avec le paramètre uuid
+	row := db.QueryRow(query, uuid)
+
+	// Initialiser une variable pour stocker les résultats
+	var logging data.User
+
+	// Scanner pour récupérer les données du client
+	if err := row.Scan(&logging.UUID, &logging.Username, &logging.HashedPassword); err != nil {
+		if err == sql.ErrNoRows {
+			// Aucune ligne trouvée
+			fmt.Printf("Client with uuid %s not found\n", uuid)
+			return nil, fmt.Errorf("client with uuid %s not found", uuid)
+		}
+		// Une autre erreur de scan
+		return nil, fmt.Errorf("failed to scan client: %v", err)
+	}
+
+	// Log les informations récupérées
+	fmt.Printf("Retrieved client: UUID=%s, Username=%s\n", logging.UUID, logging.Username)
+
+	// Retourner les données du client
+	return &logging, nil
 }
