@@ -9,8 +9,14 @@ dans le répertoire et effectuer les commandes suivantes :
    - go mod init api_test
    - go mod tidy
 - puis pour enfin lancer l'API toujour dans le termial taper :
-    - go run cmd/main.go
+   - go run cmd/main.go
 
+## pour la ducumentation :
+- entrer les comandes suivantes dans le méme terminal :
+   - go install golang.org/x/tools/cmd/godoc@latest
+   - godoc -h // pour vérifier si godoc est bien instalé en cas d'éreur réessayer la comandes du dessus.
+   - godoc -http :8080
+- and finaly go to http://localhost:8080/ to read the doc
 
 ## Méthode de travail :
 ### Flutter 
