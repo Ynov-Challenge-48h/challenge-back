@@ -218,3 +218,21 @@ func GetIndividus(dbPath string) ([]data.Individu, error) {
 
 	return individus, nil
 }
+
+func SetIndividus(dbPath string, args data.Individu) (error) {
+	// Open a connection to the database.
+	db, err := sql.Open("sqlite", dbPath)
+	if err != nil {
+		return fmt.Errorf("failed to open database: %v", err)
+	}
+	defer db.Close()
+
+	// Execute the query.
+	rows, err := db.Query(`UPDATE Individu,SET birth_date = %d,cni_expiry_date = %d, cni_number = %d,WHERE uuid = %d;`,args.Birthdate,args.CniExpiryDate,args.CniNumber,args.UUID)
+	if err != nil {
+		return fmt.Errorf("failed to query individuals: %v", err)
+	}
+	defer rows.Close()
+
+	return nil
+}

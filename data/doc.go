@@ -1,5 +1,7 @@
 package data
 
+import "time"
+
 // ApiConfig holds the configuration for the API server, including host and port.
 type ApiConfig struct {
 	Host string // The hostname where the application will run.
@@ -25,6 +27,9 @@ type Individu struct {
 	IndividualID int    `json:"individu_number"`
 	LastName     string `json:"individu_name"`
 	FirstName    string `json:"first_name"`
+	Birthdate  time.Time`json:"birth_date"`
+	CniExpiryDate time.Time`json:"cni_expiry_date"`
+	CniNumber string `json:"cni_number"`
 }
 
 // ApiContainer aggregates the API configuration and data API.
